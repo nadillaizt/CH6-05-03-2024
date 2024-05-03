@@ -1,26 +1,18 @@
+import { useEffect, useState } from "react";
 import watchImg from "../../public/images/apple-watch.png";
 import Button from "../components/Elements/Button";
 import CardProduct from "../components/Fragments/CardProduct";
-
-// const products = [
-//   {
-//     id: 1,
-//     title:
-//       "Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport",
-//     price: 599,
-//     image: watchImg,
-//     description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor beatae inventore illo fugit similique, voluptate omnis nesciunt quam ipsum incidunt!`,
-//   },
-//   {
-//     id: 2,
-//     title: "Apple Watch Lama",
-//     price: 599,
-//     image: watchImg,
-//     description: `Lorem ipsum dolor sit, amet consectetur adipisicing elit.`,
-//   },
-// ];
+import { getProducts } from "../services/product.services";
 
 const ProductPage = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getProducts((data) => {
+      setProducts(data);
+    });
+  }, []);
+
   return (
     <>
       <div className="flex justify-end h-12 bg-blue-600 sticky top-0 text-white items-center px-10">
@@ -30,11 +22,15 @@ const ProductPage = () => {
       </div>
 
       <div className="flex flex-wrap justify-center min-h-screen items-center mt-5">
-        <CardProduct>
-          <CardProduct.Header image={watchImg} />
-          <CardProduct.Body></CardProduct.Body>
-          <CardProduct.Footer></CardProduct.Footer>
-        </CardProduct>
+        {products.length > 0 && products.map((product) => (
+          <CardProduct key={product.id}>
+            <CardProduct.Header image={product.image} />
+            <CardProduct.Body title={product.title}>
+              {product.description.length > 100 ? `${product.description.substring(0, 100)}...` : product.description}
+            </CardProduct.Body>
+            <CardProduct.Footer price={product.price}></CardProduct.Footer>
+          </CardProduct>
+        ))}
       </div>
     </>
   );

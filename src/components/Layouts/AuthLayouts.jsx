@@ -32,7 +32,7 @@ const Navigation = ({ type }) => {
     return (
       <p className="text-sm mt-5 text-center">
         Already have an account?{" "}
-        <Link className="font-bold text-blue-600" to="/login">
+        <Link className="font-bold text-blue-600" to="/">
           Login
         </Link>
       </p>
