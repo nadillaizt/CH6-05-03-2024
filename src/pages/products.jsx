@@ -3,6 +3,7 @@ import watchImg from "../../public/images/apple-watch.png";
 import Button from "../components/Elements/Button";
 import CardProduct from "../components/Fragments/CardProduct";
 import { getProducts } from "../services/product.services";
+import { getUserName } from "../services/auth.services";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,15 @@ const ProductPage = () => {
       setProducts(data);
     });
   }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setUser(getUserName(token));
+    } else {
+      window.location.href = "/";
+    }
+  });
 
   return (
     <>
